@@ -17,7 +17,7 @@ const wcPlugins = [
   }),
   postcss({
     minimize: true,
-    inject: false
+    inject: false,
   }),
   litcss(),
   typescript({
@@ -62,43 +62,46 @@ const reactSubFolderBuildPlugins = folderName => [
   })
 ];
 
-// const wcfolderBuilds = getFolders("./src/components").map(folder => {
-//   return {
-//     input: `src/components/${folder}/index.ts`,
-//     output: [
-//       {
-//         file: `lib/${folder}/index.js`,
-//         sourcemap: true,
-//         exports: "named",
-//         format: "esm"
-//       }
-//     ],
-//     plugins: subfolderWCPlugins(folder)
-//   };
-// });
+const wcfolderBuilds = getFolders("./src/components").map(folder => {
+  return {
+    input: `src/components/${folder}/index.ts`,
+    output: [
+      {
+        file: `lib/${folder}/index.js`,
+        sourcemap: true,
+        exports: "named",
+        format: "esm"
+      }
+    ],
+    plugins: subfolderWCPlugins(folder)
+  };
+});
 
 const buildSgdsPackage = () => {
   const sgdsWcPackage = [
     {
       input: "src/index.ts",
       output: {
-        file: packageJson.module,
+        dir: "lib",
         format: "esm",
-        sourcemap: true
+        sourcemap: true,
+        manualChunks: {
+          sgds: ["@govtechsg/sgds"]
+        }
       },
       plugins: wcPlugins
     },
+    // ...wcfolderBuilds,
     {
-      input: "src/index.ts",
+      input: "src/autoloader.ts",
       output: {
-        file: packageJson.main,
-        format: "umd",
+        file: "lib/autoloader.js",
+        format: "esm",
         sourcemap: true,
-        name: "index"
+        inlineDynamicImports: true
       },
       plugins: wcPlugins
     }
-    // ...wcfolderBuilds
   ];
 
   if (process.env.NODE_ENV === "production") {
