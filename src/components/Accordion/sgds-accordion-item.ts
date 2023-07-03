@@ -26,7 +26,6 @@ import styles from "./sgds-accordion-item.scss";
  * @cssprop --accordion-item-font-weight - The font weight of accordion-button when it is not collapsed
  * @cssprop --accordion-item-line-height - The line height of accordion
  */
-@customElement("sgds-accordion-item")
 export class SgdsAccordionItem extends SgdsElement {
   static styles = [SgdsElement.styles, styles];
   /** @internal */
@@ -184,5 +183,6 @@ setDefaultAnimation("accordion.hide", {
   ],
   options: { duration: 200, easing: "ease-in-out" }
 });
+customElements.define("sgds-accordion-item", SgdsAccordionItem);
 
 export default SgdsAccordionItem;

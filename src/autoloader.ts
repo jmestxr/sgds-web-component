@@ -26,16 +26,14 @@ export async function discover(root: Element | ShadowRoot) {
 
   // Make the list unique
   const tagsToRegister = [...new Set(tags)];
-  console.log({tagsToRegister})
-  if(tagsToRegister.length > 0){
+  console.log({ tagsToRegister });
+  if (tagsToRegister.length > 0) {
     return new Promise((resolve, reject) => {
-        console.log("importing path")
-        import("./index.js")
-          .then((e) => resolve(e))
-          .catch(() => reject(new Error(`Unable to automatically load lib`)));
-      });
+      console.log("importing path");
+      import("./index.js").then(e => resolve(e)).catch(() => reject(new Error(`Unable to automatically load lib`)));
+    });
   }
-//   await Promise.allSettled(tagsToRegister.map(tagName => register(tagName)));
+  //   await Promise.allSettled(tagsToRegister.map(tagName => register(tagName)));
 }
 
 /**
@@ -45,13 +43,13 @@ function register(tagName: string): Promise<void> {
   const path = "./index.js";
   // If the element is already defined, there's nothing more to do
   if (customElements.get(tagName)) {
-    console.log('hello')
+    console.log("hello");
     return Promise.resolve();
   }
 
   // Register it
   return new Promise((resolve, reject) => {
-    console.log("importing path")
+    console.log("importing path");
     import(path)
       .then(() => resolve())
       .catch(() => reject(new Error(`Unable to automatically load<${tagName}> from ${path}`)));

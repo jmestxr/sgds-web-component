@@ -17,7 +17,7 @@ const wcPlugins = [
   }),
   postcss({
     minimize: true,
-    inject: false,
+    inject: false
   }),
   litcss(),
   typescript({
